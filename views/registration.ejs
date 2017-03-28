@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title><%= locals.app_name %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>  
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>Registration</h1>
+    <form method="post" action="/registration">
+    	<input type="text" id="login" name="login">
+    	<div id="checkuser"></div><br>
+    	<input type="password" name="password"><br>
+    	<input type="submit">
+    	<script type="text/javascript">
+    		$('#login').focusout(function(event) {
+    			var data = {};
+    			data.login = $('#login').val();
+    			$.post( {
+    				method: "POST",
+    				contentType: "application/json",
+    				data: JSON.stringify(data),
+    				url: "/registration/checkuser",
+    				success: function(data) {
+    					if (data.check) {
+    						$('#checkuser').html("Ok").css('color', 'green');
+    					}
+    					else {
+    						$('#checkuser').html("Name "+$('#login').val() + "is already used!").css('color', 'red');
+    					}
+    				}
+    			});
+    		});
+    	</script>
+    </form>
   </body>
 </html>

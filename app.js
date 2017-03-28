@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var registration = require('./routes/registration');
+var User = require('./models/User');
+
 
 var app = express();
 
@@ -24,9 +27,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //-----------------------------------------------------------------------
 //SET'S
 app.locals.app_name = "Social Network";
+app.set('User', User);
 
 //ROUTES
 app.get('/', index);
+app.post('/registration', registration);
+app.get('/registration', registration);
+app.post('/registration/checkuser', registration);
 
 //-----------------------------------------------------------------------
 // catch 404 and forward to error handler
